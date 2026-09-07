@@ -59,7 +59,7 @@ Additional virtual machines can be connected to the same network later to create
 | Virtualization Platform | `VirtualBox`              |
 | Security VM             | Kali Linux                |
 | Kali RAM                | `2GB`                     |
-| CPU Allocation          | `Intel Core i7`           |
+| CPU Allocation          | `2 vCPU`                  |
 | Virtual Network         | NAT Network               |
 | Network Range           | `10.0.0.0/24`             |
 | Kali IP                 | `10.0.0.2`                |
@@ -110,7 +110,7 @@ The virtual machine was configured with the required hardware resources and conn
 
 ```text
 Memory       : 2GB
-Processors   : Intel Core i7
+Processors   : 2 vCPU
 Network      : NAT Network
 Adapter      : Intel PRO/1000 MT Desktop
 ```
