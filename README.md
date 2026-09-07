@@ -46,7 +46,8 @@ The lab currently consists of a host computer running a virtualization platform 
 
 Additional virtual machines can be connected to the same network later to create attacker/target scenarios.
 
-**[SCREENSHOT: VirtualBox main window showing the Kali VM and its network configuration]**
+<img width="1280" height="758" alt="image" src="https://github.com/user-attachments/assets/a06c6126-88f7-4334-8372-c270f7259ada" />
+
 
 ---
 
@@ -54,18 +55,17 @@ Additional virtual machines can be connected to the same network later to create
 
 | Item                    | Configuration             |
 | ----------------------- | ------------------------- |
-| Host Operating System   | `YOUR OS`                 |
-| Virtualization Platform | `YOUR VIRTUALBOX VERSION` |
+| Host Operating System   | `Win10`                   |
+| Virtualization Platform | `VirtualBox`              |
 | Security VM             | Kali Linux                |
-| Kali RAM                | `YOUR RAM`                |
-| CPU Allocation          | `YOUR CPU CORES`          |
+| Kali RAM                | `2GB`                     |
+| CPU Allocation          | `Intel Core i7`           |
 | Virtual Network         | NAT Network               |
-| Network Range           | `YOUR NETWORK/CIDR`       |
-| Kali IP                 | `YOUR KALI IP`            |
-| Gateway                 | `YOUR GATEWAY`            |
-| DNS                     | `YOUR DNS`                |
+| Network Range           | `10.0.0.0/24`             |
+| Kali IP                 | `10.0.0.2`                |
+| Gateway                 | `10.0.0.1`                |
+| DNS                     | `8.8.8.8`                 |
 
-> Replace the values above with the actual configuration of your laboratory.
 
 ---
 
@@ -77,7 +77,6 @@ The first step was preparing the host system for virtualization.
 
 VirtualBox was installed and configured as the platform responsible for creating and managing the virtual machines.
 
-**[SCREENSHOT: VirtualBox installation or VirtualBox version/about window]**
 
 ---
 
@@ -90,13 +89,14 @@ Using a separate NAT Network allows the virtual machines to communicate with eac
 ### Network Configuration
 
 ```text
-Network Name : YOUR_NETWORK_NAME
-IPv4 Prefix  : YOUR_NETWORK/CIDR
-DHCP         : Enabled/Disabled
-IPv6         : Enabled/Disabled
+Network Name : NATNetwork
+IPv4 Prefix  : 10.0.0.0/24
+DHCP         : Enabled
+IPv6         : Disabled
 ```
 
-**[SCREENSHOT: VirtualBox NAT Network configuration showing the network name, CIDR and DHCP settings]**
+<img width="1280" height="762" alt="image" src="https://github.com/user-attachments/assets/6c3651bc-5ba3-42d4-ba54-0c14c73e70db" />
+
 
 ---
 
@@ -109,21 +109,28 @@ The virtual machine was configured with the required hardware resources and conn
 ### Virtual Machine Settings
 
 ```text
-Memory       : YOUR RAM
-Processors   : YOUR CPU CORES
+Memory       : 2GB
+Processors   : Intel Core i7
 Network      : NAT Network
-Adapter      : YOUR ADAPTER
+Adapter      : Intel PRO/1000 MT Desktop
 ```
 
-**[SCREENSHOT: Kali VM System settings showing RAM and CPU allocation]**
+<img width="784" height="518" alt="image" src="https://github.com/user-attachments/assets/858c6bea-8c24-4a54-b149-9f29a657d8e6" />
+<img width="786" height="519" alt="image" src="https://github.com/user-attachments/assets/64191821-bd8e-4c88-a61e-fb00f0946a12" />
 
-**[SCREENSHOT: Kali VM Network settings showing NAT Network]**
+
+
+<img width="1280" height="760" alt="image" src="https://github.com/user-attachments/assets/9bdce755-68fa-4a1b-8a82-bff4a7a619af" />
+
 
 ---
 
 ## 4. Kali Linux Network Configuration
 
 After starting Kali Linux, the network configuration was checked to ensure that the virtual machine received the expected addressing information.
+We will assign a Manual IP to the interface
+<img width="1280" height="759" alt="image" src="https://github.com/user-attachments/assets/24b44167-b8ce-42d0-95d1-ea5c2ba983ea" />
+
 
 The configuration can be inspected using:
 
@@ -140,15 +147,14 @@ ip route
 The expected configuration should contain:
 
 ```text
-IP Address : YOUR_KALI_IP
-Subnet     : YOUR_SUBNET
-Gateway    : YOUR_GATEWAY
-DNS        : YOUR_DNS
+IP Address : 10.0.0.2
+Subnet     : /24 or 255.255.255.0
+Gateway    : 10.0.0.1
+DNS        : 8.8.8.8
 ```
 
-**[SCREENSHOT: Kali terminal showing `ip addr`]**
+<img width="1280" height="761" alt="image" src="https://github.com/user-attachments/assets/2f8267b4-19dd-4ee1-aa26-d2d353b0ce71" />
 
-**[SCREENSHOT: Kali terminal showing `ip route`]**
 
 ---
 
@@ -159,12 +165,13 @@ Once the network configuration was complete, connectivity was tested progressive
 ### Gateway Test
 
 ```bash
-ping -c 4 YOUR_GATEWAY
+ping -c 4 10.0.0.1
 ```
 
 This verifies communication between Kali and the virtual network gateway.
 
-**[SCREENSHOT: Successful gateway ping]**
+<img width="1280" height="761" alt="image" src="https://github.com/user-attachments/assets/5fbd17fc-4991-4ffb-9c73-1de6832d494a" />
+
 
 ### Internet Connectivity
 
@@ -174,7 +181,8 @@ ping -c 4 8.8.8.8
 
 This checks whether the virtual machine can reach an external IP address.
 
-**[SCREENSHOT: Successful Internet ping]**
+<img width="1280" height="760" alt="image" src="https://github.com/user-attachments/assets/2dbcc8b4-d7af-46f0-9468-cac7a25fa452" />
+
 
 ### DNS Resolution
 
@@ -190,31 +198,11 @@ dig google.com
 
 This confirms that DNS resolution is functioning correctly.
 
-**[SCREENSHOT: Successful DNS lookup]**
+<img width="1280" height="762" alt="image" src="https://github.com/user-attachments/assets/7bb5e8f1-28b5-4b7b-9ee6-7f81f3fce282" />
+
 
 ---
 
-# 🔍 Security Tool Verification
-
-After establishing network connectivity, the security environment was checked to ensure that the required tools were available.
-
-For example:
-
-```bash
-nmap --version
-```
-
-Expected result:
-
-```text
-Nmap version: YOUR_VERSION
-```
-
-**[SCREENSHOT: Nmap version displayed in Kali terminal]**
-
-Other tools can be checked in the same way as they are introduced during future labs.
-
----
 
 # 💾 Creating a Recovery Point
 
@@ -228,7 +216,8 @@ The snapshot provides a known-good starting point that can be restored if a futu
 Name: Clean-Lab-Baseline
 ```
 
-**[SCREENSHOT: VirtualBox snapshot manager showing the created snapshot]**
+<img width="1280" height="761" alt="image" src="https://github.com/user-attachments/assets/cbf4c322-3299-4dd2-85f5-791f641e6e37" />
+
 
 ---
 
@@ -264,56 +253,19 @@ ip route
 
 If the default gateway is missing, the virtual network or Kali network configuration should be checked.
 
-**[SCREENSHOT: The network problem/error before fixing it]**
-
-**[SCREENSHOT: Correct configuration after fixing the issue]**
-
 ---
 
-## Issue 2 — DNS Resolution Failure
+## Issue 2: Internet Connectivity After Static IP Configuration
 
-If IP connectivity works but domain names cannot be resolved, DNS configuration should be inspected.
+After manually configuring the IPv4 settings, Internet connectivity may stop working depending on the Kali Linux and NetworkManager configuration.
 
-For example:
-
-```bash
-cat /etc/resolv.conf
-```
-
-A DNS server can then be configured according to the network setup.
-
-The issue was verified by comparing:
+During the lab, the following command was used as a workaround:
 
 ```bash
-ping -c 4 8.8.8.8
+sudo nmcli connection modify "Wired connection 1" ipv4.dad-timeout 0
 ```
 
-with:
-
-```bash
-nslookup google.com
-```
-
-**[SCREENSHOT: DNS failure]**
-
-**[SCREENSHOT: Successful DNS resolution after the fix]**
-
----
-
-## Issue 3 — Virtual Machine Startup Problem
-
-If the VM fails to start, virtualization support should be checked on the host system.
-
-Possible causes include:
-
-* Hardware virtualization disabled.
-* Incorrect VM configuration.
-* Resource allocation problems.
-* Conflicts with another virtualization platform.
-
-**[SCREENSHOT: VirtualBox error message, if encountered]**
-
-**[SCREENSHOT: BIOS/UEFI virtualization setting, if this was the actual solution]**
+After applying the configuration, the network connection was restarted and the system was rebooted if necessary.
 
 ---
 
@@ -392,40 +344,3 @@ Security testing should only be performed against systems that you own or system
 
 ---
 
-## 📸 Screenshot Checklist
-
-Before publishing the repository, the following screenshots should ideally be included:
-
-1. VirtualBox installed/version
-2. VirtualBox NAT Network configuration
-3. Kali VM hardware configuration
-4. Kali VM network adapter configuration
-5. Kali `ip addr`
-6. Kali `ip route`
-7. Successful gateway ping
-8. Successful Internet ping
-9. Successful DNS resolution
-10. Nmap version
-11. VirtualBox snapshot
-12. Any actual troubleshooting problem you encountered
-13. The configuration after fixing the problem
-
-A clean repository structure could look like:
-
-```text
-/
-├── README.md
-└── screenshots/
-    ├── 01-virtualbox.png
-    ├── 02-nat-network.png
-    ├── 03-kali-hardware.png
-    ├── 04-kali-network.png
-    ├── 05-ip-address.png
-    ├── 06-routing.png
-    ├── 07-gateway-ping.png
-    ├── 08-internet-ping.png
-    ├── 09-dns.png
-    ├── 10-nmap.png
-    ├── 11-snapshot.png
-    └── 12-troubleshooting.png
-```
